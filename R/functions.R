@@ -199,4 +199,37 @@ summary.maker <- function(d){
 	legend <- c(1,2,key)
 return(list(summary=x,cols=cols,legend=legend))}
 #--------------------------------------------------------------------------------------------------
+slc <- function(x,y,ax,ay,input='rad'){
+	# inputs required in rad or deg
+	# calculate shortest distance between a single point (x,y) and all points(xa,ya) using spherical law of cosines
+	# returns distances in radians, therefore only needs multiplying by radius of earth 6378.1 to convert to km
+	if(length(ax)!=length(ay))stop('ax must be same length as ay')
+	if(length(ax)==0)return(0); if(length(ax)>0){
+	if(input=='deg'){x <- x*pi/180; y <- y*pi/180; ax <- ax*pi/180; ay <- ay*pi/180;}
+	step.1 = sin(y) * sin (ay) + cos(y) * cos(ay) * cos(ax - x)
+	
+	# floating point bullshit, as sometimes 1 is greater than 1 (Rinferno!) 
+	step.1[step.1>1]=1
+	step.1[step.1<(-1)]=-1
+	dist <- acos(step.1)	
+return(dist)}}
+#-----------------------------------------------------------------------------------------------
+plot.frequency <- function(res,xlab='x',ylab='y',ylim=c(0,100),xaxt='n',...){
+	plot(NULL,xlim=c(max(res$startBP),min(res$endBP)),ylim=ylim,xlab=xlab,ylab=ylab,xaxt=xaxt,...)
+	for(n in 1:nrow(res)){
+		polygon(x=c(res$startBP[n],res$endBP[n],res$endBP[n],res$startBP[n]), y=100 * c(res$lower95[n],res$lower95[n],res$upper95[n],res$upper95[n]), col='lightgrey', border=NA)
+		polygon(x=c(res$startBP[n],res$endBP[n],res$endBP[n],res$startBP[n]), y=100 * c(res$lower50[n],res$lower50[n],res$upper50[n],res$upper50[n]), col='grey', border=NA)
+		lines(x=c(res$startBP[n],res$endBP[n]),y=100 * c(res$MAP[n],res$MAP[n]),col='black',lwd=1)
+		}
+	}
+#-----------------------------------------------------------------------------------------------
+plot.data.density <- function(res,xlab='x',ylab='y'){
+	plot(NULL,xlim=c(max(res$bins),min(res$bins)),ylim=c(0,max(res$ns)),xlab=xlab,ylab=ylab)
+	for(b in 1:(length(res$bins)-1)){
+		polygon(x=c(res$bins[b],res$bins[b+1],res$bins[b+1],res$bins[b]), y=c(0,0,res$ns[b],res$ns[b]), col='lightgrey')
+		#text(x=mean(c(res$bins[b],res$bins[b+1])),y=max(res$ns)*0.8,labels=round(res$P[b],1),col='blue',cex=0.5)
+		#text(x=mean(c(res$bins[b],res$bins[b+1])),y=max(res$ns)*0.7,labels=round(res$A[b],1),col='red',cex=0.5)
+		}
+	}
+#-----------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------
