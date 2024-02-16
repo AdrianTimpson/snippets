@@ -223,13 +223,4 @@ plot.frequency <- function(res,xlab='x',ylab='y',ylim=c(0,100),xaxt='n',...){
 		}
 	}
 #-----------------------------------------------------------------------------------------------
-plot.data.density <- function(res,xlab='x',ylab='y'){
-	plot(NULL,xlim=c(max(res$bins),min(res$bins)),ylim=c(0,max(res$ns)),xlab=xlab,ylab=ylab)
-	for(b in 1:(length(res$bins)-1)){
-		polygon(x=c(res$bins[b],res$bins[b+1],res$bins[b+1],res$bins[b]), y=c(0,0,res$ns[b],res$ns[b]), col='lightgrey')
-		#text(x=mean(c(res$bins[b],res$bins[b+1])),y=max(res$ns)*0.8,labels=round(res$P[b],1),col='blue',cex=0.5)
-		#text(x=mean(c(res$bins[b],res$bins[b+1])),y=max(res$ns)*0.7,labels=round(res$A[b],1),col='red',cex=0.5)
-		}
-	}
-#-----------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------
