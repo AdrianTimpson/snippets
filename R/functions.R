@@ -142,8 +142,8 @@ generate.colours.for.a.numeric <- function(x){
 	if(max(x,na.rm=T)>5)res <- generate.colours.for.integers(x)
 return(res)}
 #--------------------------------------------------------------------------------------------------
-generate.colours.for.zero.to.one <- function(x){
-	posts <- round(quantile(x,na.rm=T),3)
+generate.colours.for.zero.to.one <- function(x, posts=NULL){
+	if(is.null(posts))posts <- round(quantile(x,na.rm=T),3)
 	N <- length(posts)-1
 	key <- code <- col <- c()
 	for(n in 1:N){
