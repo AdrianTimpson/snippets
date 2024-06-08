@@ -150,7 +150,7 @@ generate.colours.for.zero.to.one <- function(x, posts=NULL){
 		lower <- posts[n]
 		upper <- posts[n+1]
 		key[n] <- paste(lower,upper,sep='=>')
-		i <- x>=lower & x<upper
+		i <- x>=lower & x<=upper
 		code[i] <- n
 		}
 	cols <- colorRampPalette(c("red", "blue"))(N)
