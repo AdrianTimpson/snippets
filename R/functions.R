@@ -245,7 +245,7 @@ blob <- function(d, k, r){
 	d$clust[start] <- 1:k
 
 	# main loop
-	for(n in 1:(nrow(d)-3)){
+	for(n in 1:(nrow(d)-k)){
 
 	# randomly choose next point
 	p.i <- sample(which(is.na(d$clust)),size=1)
